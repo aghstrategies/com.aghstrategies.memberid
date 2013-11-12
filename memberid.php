@@ -12,7 +12,8 @@ function memberid_civicrm_alterContent(  &$content, $context, $tplName, &$object
 
 	$content1 = substr($content, 0, $marker);
 	$content3 = substr($content, $marker);
-	$id = $_GET['cid'];
+	$id = $object->getVar('_id');
+
 
 	$get_memberships = civicrm_api("Membership","get", array('version' =>'3', 'membership_contact_id' => $id, 'debug' => 1));
 	$memberships = $get_memberships['values'];
@@ -35,7 +36,8 @@ function memberid_civicrm_alterContent(  &$content, $context, $tplName, &$object
 	  $marker = strpos($content, '<tr', $marker2+1);     
 	  $content1 = substr($content, 0, $marker);
 	  $content3 = substr($content, $marker);
-	  $id = $_GET['id'];
+	  $id = $object->getVar('_id');
+
 	  $content2 = '<tr><td class="label">'.ts('Membership ID').'</td><td>'.$id.'</td></tr>';
 	  $content = $content1.$content2.$content3;  
         }
@@ -44,7 +46,7 @@ function memberid_civicrm_alterContent(  &$content, $context, $tplName, &$object
 	  $marker = strrpos(substr($content, 0, $marker1), '<tr'); 
 	  $content1 = substr($content, 0, $marker);
 	  $content3 = substr($content, $marker);
-	  $id = $_GET['id'];
+	  $id = $object->getVar('_id');
 	  $content2 = '<tr><td class="font-size12pt label"><strong>'.ts('Membership ID').'</strong></td><td class="font-size12pt"><strong>   '.$id.'</strong></td></tr>';
 	  $content = $content1.$content2.$content3;           
         } 	
