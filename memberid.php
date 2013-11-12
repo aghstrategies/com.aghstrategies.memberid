@@ -31,50 +31,27 @@ function memberid_civicrm_alterContent(  &$content, $context, $tplName, &$object
   if ($tplName == 'CRM/Member/Page/Tab.tpl'){
         if ($_GET['action']=='view'){
 	  $marker1 = strpos($content, '<table class="crm-info-panel');
-	  $marker2 = strpos($content, 'Member</td>', $marker1);
-	  $marker = strpos($content, '<tr>', $marker2);     
+	  $marker2 = strpos($content, '<tr', $marker1);
+	  $marker = strpos($content, '<tr', $marker2+1);     
 	  $content1 = substr($content, 0, $marker);
 	  $content3 = substr($content, $marker);
 	  $id = $_GET['id'];
-	  $content2 = '<tr><td class="label">Membership ID</td><td>'.$id.'</td></tr>';
+	  $content2 = '<tr><td class="label">'.ts('Membership ID').'</td><td>'.$id.'</td></tr>';
 	  $content = $content1.$content2.$content3;  
         }
         elseif ($_GET['action']=='update'){
- 	  $marker1 = strpos($content, '<table class="form-layout-compressed');
-	  $marker2 = strpos($content, '<strong>Member', $marker1);
-	  $marker = strpos($content, '<tr class="crm-membership-form-block-membership_type_id', $marker2);     
+	  $marker1 = strpos($content, 'crm-membership-form-block-membership_type_id');    
+	  $marker = strrpos(substr($content, 0, $marker1), '<tr'); 
 	  $content1 = substr($content, 0, $marker);
 	  $content3 = substr($content, $marker);
 	  $id = $_GET['id'];
-	  $content2 = '<tr><td class="font-size12pt label"><strong>Membership ID</strong></td><td class="font-size12pt"><strong>   '.$id.'</strong></td></tr>';
+	  $content2 = '<tr><td class="font-size12pt label"><strong>'.ts('Membership ID').'</strong></td><td class="font-size12pt"><strong>   '.$id.'</strong></td></tr>';
 	  $content = $content1.$content2.$content3;           
         } 	
     }
   }
 }
 
-
-/* Implementation of hook_civicrm_pageRun*/
-
-#function memberid_civicrm_pageRun($page){
-#print_r($page);
-
-#  if (is_a($page, 'CRM_Contact_Page_View_Summary')){
-#  CRM_Core_Region::instance('page-header')->add(array(
-#    'markup' => '<p>Congratulations! You won the lottery!</p>',
-#  ));
-
- # }
-
-
-#}
-
-
-#function memberid_civicrm_buildForm($formName, &$form){
-#	print_r($form);
-#	die();
-
-#}
 /**
  * Implementation of hook_civicrm_config
  */
