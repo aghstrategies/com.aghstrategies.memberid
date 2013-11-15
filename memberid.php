@@ -12,23 +12,26 @@ function memberid_civicrm_alterContent(  &$content, $context, $tplName, &$object
 
 	$content1 = substr($content, 0, $marker);
 	$content3 = substr($content, $marker);
-	$id = $object->getVar('_id');
+	$id = $object->getVar('_contactId');
 
 
 	$get_memberships = civicrm_api("Membership","get", array('version' =>'3', 'membership_contact_id' => $id, 'debug' => 1));
 	$memberships = $get_memberships['values'];
+    $content2 = '';
 	foreach ($memberships as $membership){
-	  $content2 = '<div class="crm-summary-row">
+	  $content2 .= '<div class="crm-summary-row">
                             <div class="crm-label">
-                              '.$membership['membership_name']." ". ts('ID').': 
+                              '.$membership['membership_name']." ". ts('ID').' 
                             </div>
                             <div class="crm-content">
                               <span class="crm-contact-contact_id">'.$membership['id'].'</span>
                               </div>
                           </div>';
-	$content = $content1.$content2.$content3;   
+
       }
+	$content = $content1.$content2.$content3;   
     }
+
   if ($tplName == 'CRM/Member/Page/Tab.tpl'){
         if ($_GET['action']=='view'){
 	  $marker1 = strpos($content, '<table class="crm-info-panel');
