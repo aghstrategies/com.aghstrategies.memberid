@@ -7,51 +7,53 @@ require_once 'memberid.civix.php';
 function memberid_civicrm_alterContent(  &$content, $context, $tplName, &$object){
   if ($context=='page'){
     if ($tplName=='CRM/Contact/Page/View/Summary.tpl'){
-	$marker1 = strpos($content, '<div class="crm-content crm-contact_type_label">');
-	$marker = strpos($content, '<div class="crm-summary-row', $marker1);
+	    $marker1 = strpos($content, '<div class="crm-content crm-contact_type_label">');
+	    $marker = strpos($content, '<div class="crm-summary-row', $marker1);
 
-	$content1 = substr($content, 0, $marker);
-	$content3 = substr($content, $marker);
-	$id = $object->getVar('_contactId');
+	    $content1 = substr($content, 0, $marker);
+	    $content3 = substr($content, $marker);
+	    $id = $object->getVar('_contactId');
 
 
-	$get_memberships = civicrm_api("Membership","get", array('version' =>'3', 'membership_contact_id' => $id, 'debug' => 1));
-	$memberships = $get_memberships['values'];
-    $content2 = '';
-	foreach ($memberships as $membership){
-	  $content2 .= '<div class="crm-summary-row">
-                            <div class="crm-label">
-                              '.$membership['membership_name']." ". ts('ID').' 
-                            </div>
-                            <div class="crm-content">
-                              <span class="crm-contact-contact_id">'.$membership['id'].'</span>
-                              </div>
-                          </div>';
+	    $get_memberships = civicrm_api("Membership","get", array('version' =>'3', 'membership_contact_id' => $id, 'debug' => 1));
+	    $memberships = $get_memberships['values'];
+        $content2 = '';
+	    foreach ($memberships as $membership){
+	      $content2 .= '<div class="crm-summary-row">
+                                <div class="crm-label">
+                                  '.$membership['membership_name']." ". ts('ID').' 
+                                </div>
+                                <div class="crm-content">
+                                  <span class="crm-contact-contact_id">'.$membership['id'].'</span>
+                                  </div>
+                              </div>';
 
-      }
-	$content = $content1.$content2.$content3;   
+          }
+	    $content = $content1.$content2.$content3;   
     }
 
   if ($tplName == 'CRM/Member/Page/Tab.tpl'){
-        if ($_GET['action']=='view'){
-	  $marker1 = strpos($content, '<table class="crm-info-panel');
-	  $marker2 = strpos($content, '<tr', $marker1);
-	  $marker = strpos($content, '<tr', $marker2+1);     
-	  $content1 = substr($content, 0, $marker);
-	  $content3 = substr($content, $marker);
-	  $id = $object->getVar('_id');
+        if ($object->_action == 4){
+	        $marker1 = strpos($content, '<table class="crm-info-panel');
+	        $marker2 = strpos($content, '<tr', $marker1);
+	        $marker = strpos($content, '<tr', $marker2+1);     
+	        $content1 = substr($content, 0, $marker);
+	        $content3 = substr($content, $marker);
+	        $id = $object->getVar('_id');
 
-	  $content2 = '<tr><td class="label">'.ts('Membership ID').'</td><td>'.$id.'</td></tr>';
-	  $content = $content1.$content2.$content3;  
+	        $content2 = '<tr><td class="label">'.ts('Membership ID').'</td><td>'.$id.'</td></tr>';
+	        $content = $content1.$content2.$content3;  
         }
-        elseif ($_GET['action']=='update'){
-	  $marker1 = strpos($content, 'crm-membership-form-block-membership_type_id');    
-	  $marker = strrpos(substr($content, 0, $marker1), '<tr'); 
-	  $content1 = substr($content, 0, $marker);
-	  $content3 = substr($content, $marker);
-	  $id = $object->getVar('_id');
-	  $content2 = '<tr><td class="font-size12pt label"><strong>'.ts('Membership ID').'</strong></td><td class="font-size12pt"><strong>   '.$id.'</strong></td></tr>';
-	  $content = $content1.$content2.$content3;           
+        if ($object->_action ==2){
+	        $marker1 = strpos($content, 'crm-membership-form-block-membership_type_id');    
+	        $marker = strrpos(substr($content, 0, $marker1), '<tr'); 
+	        if ($marker != 0){
+	          $content1 = substr($content, 0, $marker);
+	          $content3 = substr($content, $marker);
+	          $id = $object->getVar('_id');
+	          $content2 = '<tr><td class="font-size12pt label"><strong>'.ts('Membership ID').'</strong></td><td class="font-size12pt"><strong>   '.$id.'</strong></td></tr>';
+	          $content = $content1.$content2.$content3; 
+	        }          
         } 	
     }
   }
