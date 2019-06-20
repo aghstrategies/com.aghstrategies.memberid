@@ -10,10 +10,11 @@
   </maintainer>
   <releaseDate>2013-11-08</releaseDate>
   <version>1.0</version>
-  <develStage>alpha</develStage>
+  <develStage>stable</develStage>
   <compatibility>
     <ver>4.3</ver>
     <ver>4.4</ver>
+    <ver>5.14</ver>
   </compatibility>
   <civix>
     <namespace>CRM/Memberid</namespace>
