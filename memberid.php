@@ -33,7 +33,7 @@ function memberid_civicrm_alterContent(  &$content, $context, $tplName, &$object
     }
 
   if ($tplName == 'CRM/Member/Page/Tab.tpl'){
-        if ($object->_action == 4){
+        if ($object->getVar('_action') == 4){
 	        $marker1 = strpos($content, '<table class="crm-info-panel');
 	        $marker2 = strpos($content, '<tr', $marker1);
 	        $marker = strpos($content, '<tr', $marker2+1);     
@@ -44,7 +44,7 @@ function memberid_civicrm_alterContent(  &$content, $context, $tplName, &$object
 	        $content2 = '<tr><td class="label">'.ts('Membership ID').'</td><td>'.$id.'</td></tr>';
 	        $content = $content1.$content2.$content3;  
         }
-        if ($object->_action ==2){
+        if ($object->getVar('_action') ==2){
 	        $marker1 = strpos($content, 'crm-membership-form-block-membership_type_id');    
 	        $marker = strrpos(substr($content, 0, $marker1), '<tr'); 
 	        if ($marker != 0){
